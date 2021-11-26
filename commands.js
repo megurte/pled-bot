@@ -52,39 +52,88 @@ function removeRole(bot, message, args) {
 function newRole(bot, message, arguments) {
     const arg = message.content.split(' ').slice(1);
     const roles = config.roles;
-    const userId = message.author.id;
 
-    for (let i = 0; i < roles.length; i++) {
-        for(let index in roles[i]) {
-            if (!roles[i][index].includes(arg.toString())) {
+    if (message.member.permissions.has("ADMINISTRATOR")) {
+        let isRepeated = false;
+
+        for (let i = 0; i < roles.length; i++) {
+
+            if (roles[i].name == arg) {
+                message.reply(`${arg} role already added`);
+                isRepeated = true;
+            }
+
+            if (i === roles.length - 1 && !isRepeated) {
                 let role = message.guild.roles.cache.find((role) => {
                     return role.name === arg.toString();
                 });
 
-                if(role) {
-                    let data = roles;
+                if (role) {
+                    let data = config;
                     let newData = {name: role.name, id: role.id};
 
-                    data.push(newData)
-                    fs.writeFile("config.json", JSON.stringify(data), function(err) {
-                            if (err) throw err;
-                            console.log('complete');
-                        }
-                    );
+                    data.roles.push(newData)
+                    fs.writeFileSync("config.json", JSON.stringify(data), function (e) {
+                        if (e) return console.log(e);
+                    })
+
+                    console.log(`role adding complete (${arg})`)
+                    message.reply(`${arg} role successfully added`);
+
+                    break;
                 }
                 else {
+                    message.reply(`${arg} role doesn't exist`);
+
                     break;
                 }
             }
         }
     }
-
-    message.reply(`${arg} role already added`);
+    else {
+        message.reply(`You don't have permission to add roles`);
+    }
 }
 
 // Admins only
 function deleteRole(bot, message, args) {
-    message.reply(`test`);
+    const arg = message.content.split(' ').slice(1);
+    const roles = config.roles;
+
+    if (message.member.permissions.has("ADMINISTRATOR")) {
+
+        for (let i = 0; i < roles.length; i++) {
+            if (roles[i].name != arg) {
+                continue;
+            }
+            else {
+                let role = message.guild.roles.cache.find((role) => {
+                    return role.name === arg.toString();
+                });
+
+                if (role) {
+                    let data = config;
+                    let deleteData = data.roles[i];
+                    console.log(deleteData)
+                    delete data.roles[i];
+                    fs.writeFileSync("config.json", JSON.stringify(data), function (e) {
+                        if (e) return console.log(e);
+                    })
+
+                    console.log(`role removing complete (${arg})`)
+                    message.reply(`${arg} role successfully removed`);
+
+                    break;
+                }
+                else {
+                    message.reply(`${arg} role doesn't exist`);
+                }
+            }
+        }
+    }
+    else {
+        message.reply(`You don't have permission to remove roles`);
+    }
 }
 
 function availableRoles(bot, message, args) {
