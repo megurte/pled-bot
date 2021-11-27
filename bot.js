@@ -10,8 +10,7 @@ bot.on("ready", function () {
     console.log(bot.user.username + " is on");
 });
 
-
-bot.on('message', (message) => {
+bot.on('messageCreate', (message) => {
     if (message.author.username != bot.user.username) {
         let command = message.content.trim() + " ";
         let commandName = command.slice(0, command.indexOf(" "));
