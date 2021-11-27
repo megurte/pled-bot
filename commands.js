@@ -181,7 +181,7 @@ function deleteRole(bot, message, args) {
         }
     }
     else {
-        message.reply(`You don't have permission to remove roles`);
+        message.reply(`You don't have permission to delete roles`);
     }
 }
 
