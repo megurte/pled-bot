@@ -2,27 +2,22 @@
   "new": [
     [
       {
-        "title": "New Command",
-        "name": "help",
-        "description": "Отображзает все доступные команды для пользователей, кроме самой команды help"
-      },
-      {
-        "title": "New Command",
-        "name": "changes",
-        "description": "Выводит список всех изменений актуальной версии"
+        "title": "",
+        "name": "",
+        "description": ""
       }
     ],
     [
       {
-        "title": "Changed Command",
-        "oldName": "add",
-        "newName": "addrole",
-        "description": "Название изменено из-за проблем с форматированием текста этой команды"
+        "title": "",
+        "oldName": "",
+        "newName": "",
+        "description": ""
       }
     ],
     [
       {
-        "title": "New Feature",
+        "title": "",
         "name": "",
         "description": ""
       }
@@ -30,13 +25,18 @@
     [
       {
         "title": "Fix",
-        "name": "console warning",
-        "description": "Исправлен вылетающий варнинг в консоли после отправки сообещния ботом"
+        "name": "Баг составных ролей",
+        "description": "Баг со считыванием ролей из нескольких слов"
       },
       {
         "title": "Fix",
-        "name": "console log",
-        "description": "Удалены ненужные и тестовые выводы в консоль"
+        "name": "Null reference",
+        "description": "При удалении ролей из конфига ролей оставался null"
+      },
+      {
+        "title": "Fix",
+        "name": "Дополнительные проверки",
+        "description": "Добавлены дополнительные проверки для явного приведения типов для избежания ошибок и потери данных"
       }
     ]
   ]

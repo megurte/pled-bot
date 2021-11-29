@@ -11,15 +11,15 @@ bot.on("ready", function () {
 });
 
 bot.on('messageCreate', (message) => {
-    if (message.author.username != bot.user.username) {
+    if (message.author.username !== bot.user.username) {
         let command = message.content.trim() + " ";
         let commandName = command.slice(0, command.indexOf(" "));
         let messageList = command.split(" ");
 
-        for (commandIndex in commands.comms) {
+        for (let commandIndex in commands.comms) {
             let command2 = prefix + commands.comms[commandIndex].name;
 
-            if (command2 == commandName) {
+            if (command2 === commandName) {
                 commands.comms[commandIndex].out(bot, message, messageList);
             }
         }

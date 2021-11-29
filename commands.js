@@ -3,13 +3,13 @@ const fs = require('fs');
 const information = require('./package.json');
 const versionChanges = require('./changes.json');
 
-function rollGiver(bot, message, args) {
-    const arg = message.content.split(' ').slice(1);
+function rollGiver(bot, message) {
+    const arg = message.content.split(' ').slice(1).join(' ');
     const roles = config.roles;
     const userId = message.author.id;
 
     for (let i = 0; i < roles.length; i++) {
-        if (arg == roles[i].name) {
+        if (roles[i].name == arg) {
             let roleId = message.guild.roles.cache.get(`${roles[i].id}`);
             let user = message.guild.members.cache.get(`${userId}`);
 
@@ -25,14 +25,14 @@ function rollGiver(bot, message, args) {
     }
 }
 
-function removeRole(bot, message, args) {
-    const arg = message.content.split(' ').slice(1);
+function removeRole(bot, message) {
+    const arg = message.content.split(' ').slice(1).join(' ');
     const roles = config.roles;
     const userId = message.author.id;
 
 
     for (let i = 0; i < roles.length; i++) {
-        if (arg == roles[i].name) {
+        if (roles[i].name == arg) {
             let roleId = message.guild.roles.cache.get(`${roles[i].id}`);
             let user = message.guild.members.cache.get(`${userId}`);
 
@@ -49,7 +49,7 @@ function removeRole(bot, message, args) {
     }
 }
 
-function availableRoles(bot, message, args) {
+function availableRoles(bot, message) {
     const roles = config.roles;
     let messageContent = '';
 
@@ -63,7 +63,7 @@ function availableRoles(bot, message, args) {
     message.reply(`Available roles: ${messageContent}`);
 }
 
-function showChanges(bot, message, args) {
+function showChanges(bot, message) {
     const changes = versionChanges.new;
     let messageContent = "";
 
@@ -72,7 +72,7 @@ function showChanges(bot, message, args) {
             let change = changes[changesIndex];
 
             for (let innerIndex = 0; innerIndex < change.length; innerIndex++) {
-                if (change[innerIndex].name != '') {
+                if (change[innerIndex].name !== '') {
                     let item = change[innerIndex];
 
                     switch (item.title) {
@@ -100,14 +100,14 @@ function showChanges(bot, message, args) {
 
 // Admins only
 function newRole(bot, message, arguments) {
-    const arg = message.content.split(' ').slice(1);
+    const arg = message.content.split(' ').slice(1).join(' ');
     const roles = config.roles;
 
     if (message.member.permissions.has("ADMINISTRATOR")) {
         let isRepeated = false;
 
         for (let i = 0; i < roles.length; i++) {
-            if (roles[i].name == arg) {
+            if (roles[i].name.toString() === arg.toString()) {
                 message.reply(`${arg} role already added`);
                 isRepeated = true;
             }
@@ -146,17 +146,14 @@ function newRole(bot, message, arguments) {
 }
 
 // Admins only
-function deleteRole(bot, message, args) {
-    const arg = message.content.split(' ').slice(1);
+function deleteRole(bot, message) {
+    const arg = message.content.split(' ').slice(1).join(' ');
     const roles = config.roles;
 
     if (message.member.permissions.has("ADMINISTRATOR")) {
 
         for (let i = 0; i < roles.length; i++) {
-            if (roles[i].name != arg) {
-                continue;
-            }
-            else {
+            if (roles[i].name == arg) {
                 let role = message.guild.roles.cache.find((role) => {
                     return role.name === arg.toString();
                 });
@@ -164,7 +161,7 @@ function deleteRole(bot, message, args) {
                 if (role) {
                     let data = config;
 
-                    delete data.roles[i];
+                    data.roles.splice(i, 1);
                     fs.writeFileSync("config.json", JSON.stringify(data), function (e) {
                         if (e) return console.log(e);
                     });
@@ -189,12 +186,12 @@ let commandList = [
     {
         name: "role",
         out: rollGiver,
-        about: "Добавляет роль из списка пользователю",
+        about: "Добавляет роль пользователю",
     },
     {
         name: "roles",
         out: availableRoles,
-        about: "Все доступные на пользователей роли",
+        about: "Все доступные пользователям роли",
     },
     {
         name: "remove",
@@ -224,12 +221,12 @@ let commandList = [
 
 module.exports.comms = commandList;
 
-function showHelp(bot, message, args) {
+function showHelp(bot, message) {
     const commands = commandList;
     let answerMessage = "```ARM\n";
 
     for (let i = 0; i < commands.length; i++) {
-        if (commands[i].name != "help") {
+        if (commands[i].name !== "help") {
             answerMessage += `${commands[i].name} ー ${commands[i].about}\n`;
         }
     }
