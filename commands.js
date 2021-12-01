@@ -57,10 +57,10 @@ function availableRoles(bot, message) {
         messageContent += `${roles[i].name}`;
 
         if (i < roles.length - 1){
-            messageContent += `, `;
+            messageContent += `\n`;
         }
     }
-    message.reply(`Available roles: ${messageContent}`);
+    message.reply(`Available roles:\n${messageContent}`);
 }
 
 function showChanges(bot, message) {
