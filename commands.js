@@ -54,11 +54,7 @@ function availableRoles(bot, message) {
     let messageContent = '';
 
     for (let i = 0; i < roles.length; i++) {
-        messageContent += `${roles[i].name}`;
-
-        if (i < roles.length - 1){
-            messageContent += `\n`;
-        }
+        messageContent += `${roles[i].name}\n`;
     }
     message.reply(`Available roles:\n${messageContent}`);
 }
